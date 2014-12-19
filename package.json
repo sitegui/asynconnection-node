@@ -1,0 +1,29 @@
+{
+	"name": "asynconnection-node",
+	"version": "0.0.1",
+	"author": "Sitegui <sitegui@sitegui.com.br>",
+	"description": "An async, call-return-throw oriented protocol",
+	"main": "./index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/sitegui/async-protocol-node"
+	},
+	"keywords": [],
+	"dependencies": {
+		"async-protocol-core": "https://github.com/sitegui/async-protocol-core"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=0.10"
+	},
+	"scripts": {
+		"test": "mocha test -b",
+		"docs": "jsdoc -d docs -c docs.json -t node_modules/ink-docstrap/template lib && jsdoc -p -d docs_private -c docs.json -t node_modules/ink-docstrap/template lib"
+	},
+	"devDependencies": {
+		"ink-docstrap": "^0.4.12",
+		"jsdoc": "^3.3.0-alpha10",
+		"mocha": "^2.0.1",
+		"should": "^4.3.0"
+	}
+}
