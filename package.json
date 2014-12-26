@@ -10,7 +10,7 @@
 	},
 	"keywords": [],
 	"dependencies": {
-		"asynconnection-core": "^0.2.0"
+		"asynconnection-core": "^0.2.1"
 	},
 	"license": "MIT",
 	"engines": {

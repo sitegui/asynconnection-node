@@ -1,3 +1,3 @@
 'use strict'
 
-module.export = require('./lib/Context')
+module.exports = require('./lib/Context')
