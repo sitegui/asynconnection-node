@@ -10,7 +10,8 @@
 	},
 	"keywords": [],
 	"dependencies": {
-		"asynconnection-core": "^0.2.1"
+		"asynconnection-core": "^0.3.0",
+		"nodejs-websocket": "^1.2.0"
 	},
 	"license": "MIT",
 	"engines": {
@@ -18,7 +19,7 @@
 	},
 	"scripts": {
 		"test": "mocha test -b",
-		"docs": "jsdoc -d docs -c docs.json lib && jsdoc -p -d docs_private -c docs.json lib"
+		"docs": "jsdoc -d docs -c docs.json -R README.md"
 	},
 	"devDependencies": {
 		"jsdoc": "^3.3.0-alpha13",
