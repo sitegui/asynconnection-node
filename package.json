@@ -1,29 +1,30 @@
 {
-  "name": "asynconnection-node",
-  "version": "0.1.0",
-  "author": "Sitegui <sitegui@sitegui.com.br>",
-  "description": "An async, call-return-throw oriented protocol",
-  "main": "./index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sitegui/asynconnection-node"
-  },
-  "keywords": [],
-  "dependencies": {
-    "asynconnection-core": "^0.3.0",
-    "nodejs-websocket": "^1.2.0"
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=0.10"
-  },
-  "scripts": {
-    "test": "mocha test -b",
-    "docs": "jsdoc -d docs -c docs.json -R README.md"
-  },
-  "devDependencies": {
-    "jsdoc": "^3.3.0-alpha13",
-    "mocha": "^2.1.0",
-    "should": "^4.4.1"
-  }
+	"name": "asynconnection",
+	"version": "0.1.0",
+	"author": "Sitegui <sitegui@sitegui.com.br>",
+	"description": "An async, call-return-throw oriented protocol",
+	"main": "./index.js",
+	"browser": "./browser.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/sitegui/asynconnection"
+	},
+	"keywords": [],
+	"dependencies": {
+		"asynconnection-core": "^0.3.0",
+		"nodejs-websocket": "^1.2.0"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=0.10"
+	},
+	"scripts": {
+		"test": "mocha test -b",
+		"docs": "jsdoc -d docs -c docs.json -R README.md"
+	},
+	"devDependencies": {
+		"jsdoc": "^3.3.0-alpha13",
+		"mocha": "^2.1.0",
+		"should": "^4.4.1"
+	}
 }
