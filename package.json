@@ -1,6 +1,6 @@
 {
 	"name": "asynconnection",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"author": "Sitegui <sitegui@sitegui.com.br>",
 	"description": "An async, call-return-throw oriented protocol",
 	"main": "./index.js",
@@ -11,20 +11,20 @@
 	},
 	"keywords": [],
 	"dependencies": {
-		"asynconnection-core": "^0.3.0",
-		"nodejs-websocket": "^1.2.0"
+		"asynconnection-core": "^1.0.1",
+		"nodejs-websocket": "^1.7.1"
 	},
 	"license": "MIT",
 	"engines": {
-		"node": ">=0.10"
+		"node": ">=4"
 	},
 	"scripts": {
 		"test": "mocha test -b",
 		"docs": "jsdoc -d docs -c docs.json -R README.md"
 	},
 	"devDependencies": {
-		"jsdoc": "^3.3.0-alpha13",
-		"mocha": "^2.1.0",
-		"should": "^4.4.1"
+		"jsdoc": "^3.5.5",
+		"mocha": "^4.0.1",
+		"should": "^13.1.3"
 	}
 }
