@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Context.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Context.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+var net = require('net'),
+	tls = require('tls'),
+	CoreContext = require('asynconnection-core').Context,
+	Server = require('./Server'),
+	WSServer = require('./WSServer'),
+	Connection = require('./Connection'),
+	WSConnection = require('./WSConnection'),
+	ws = require('nodejs-websocket')
+
+/**
+ * A set of messages and calls
+ * Servers and clients are created from a Context
+ * @class
+ * @extends core:Context
+ */
+function Context() {
+	CoreContext.call(this)
+}
+
+require('util').inherits(Context, CoreContext)
+module.exports = Context
+
+/**
+ * @typedef {Object} AuthOptions
+ * @property {string} [user='']
+ * @property {string} [password='']
+ * @property {boolean} [required=false] - if true, will require client authentication
+ * @property {core:Peer~AuthHandler} [handler] - the default handler accepts any user/password
+ */
+
+/**
+ * Create a new server from this context.
+ * To create a server using TLS, at least one of 'pfx', 'key', 'cert' must be set in socketOptions
+ * @param {Object} [socketOptions] - an object passed to net.createServer or tls.createServer
+ * @param {AuthOptions} [auth] - an object describing how the server will handle autentication
+ * @param {function(core:Peer)} [callback] - added as a listener to event:Server#connection
+ * @returns {Server}
+ */
+Context.prototype.createServer = function (socketOptions, auth, callback) {
+	if (typeof socketOptions === 'function') {
+		callback = socketOptions
+		auth = {}
+		socketOptions = {}
+	} else if (typeof auth === 'function') {
+		callback = auth
+		auth = {}
+	}
+
+	var server = new Server(this, socketOptions || {}, auth || {})
+	if (callback) {
+		server.on('connection', callback)
+	}
+	return server
+}
+
+/**
+ * Create a new client from this context.
+ * To connect to a server using TLS, set 'secure' as true in socketOptions
+ * @param {Object} socketOptions - an object passed to net.connect or tls.connect (if secure is true)
+ * @param {AuthOptions} [auth] - an object describing how the client should autenticate
+ * @param {function()} [callback] - added as a listener to event:Client#connect
+ * @returns {core:Peer}
+ */
+Context.prototype.connect = function (socketOptions, auth, callback) {
+	var connection, peer
+	if (typeof socketOptions === 'function') {
+		callback = socketOptions
+		auth = {}
+		socketOptions = {}
+	} else if (typeof auth === 'function') {
+		callback = auth
+		auth = {}
+	}
+
+	// Create underlying socket
+	if (socketOptions.secure) {
+		connection = new Connection(tls.connect(socketOptions), 'secureConnect')
+	} else {
+		connection = new Connection(net.connect(socketOptions), 'connect')
+	}
+
+	peer = this._createPeer(false, auth || {}, connection)
+	if (callback) {
+		peer.on('connect', callback)
+	}
+	return peer
+}
+
+/**
+ * Create a new websocket server from this context.
+ * To create a server using TLS, at least one of 'pfx', 'key', 'cert' must be set in socketOptions
+ * @param {Object} [socketOptions] - an object passed to net.createServer or tls.createServer
+ * @param {AuthOptions} [auth] - an object describing how the server will handle autentication
+ * @param {function(core:Peer)} [callback] - added as a listener to event:WSServer#connection
+ * @returns {ws:Server}
+ */
+Context.prototype.createWSServer = function (socketOptions, auth, callback) {
+	if (typeof socketOptions === 'function') {
+		callback = socketOptions
+		auth = {}
+		socketOptions = {}
+	} else if (typeof auth === 'function') {
+		callback = auth
+		auth = {}
+	}
+
+	var server = new WSServer(this, socketOptions || {}, auth || {})
+	if (callback) {
+		server.on('connection', callback)
+	}
+	return server
+}
+
+/**
+ * Create a new websocket client from this context.
+ * To connect to a server using TLS, set 'secure' as true in socketOptions
+ * @param {Object} socketOptions - an object passed to net.connect or tls.connect (if secure is true)
+ * @param {AuthOptions} [auth] - an object describing how the client should autenticate
+ * @param {function()} [callback] - added as a listener to event:WSClient#connect
+ * @returns {core:Peer}
+ */
+Context.prototype.connectWS = function (socketOptions, auth, callback) {
+	var connection, peer, protocol, host, port
+	if (typeof socketOptions === 'function') {
+		callback = socketOptions
+		auth = {}
+		socketOptions = {}
+	} else if (typeof auth === 'function') {
+		callback = auth
+		auth = {}
+	}
+
+	// Create underlying socket
+	protocol = socketOptions.secure ? 'wss' : 'ws'
+	host = socketOptions.host || 'localhost'
+	port = socketOptions.port
+	connection = new WSConnection(ws.connect(protocol + '://' + host + ':' + port))
+
+	peer = this._createPeer(false, auth || {}, connection)
+	if (callback) {
+		peer.on('connect', callback)
+	}
+	return peer
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Context.html">Context</a></li></ul><h3>Events</h3><ul><li><a href="Connection.html#event:close">close</a></li><li><a href="Connection.html#event:connect">connect</a></li><li><a href="Connection.html#event:error">error</a></li><li><a href="Connection.html#event:frame">frame</a></li><li><a href="Server.html#event:close">close</a></li><li><a href="Server.html#event:connection">connection</a></li><li><a href="Server.html#event:error">error</a></li><li><a href="WSConnection.html#event:close">close</a></li><li><a href="WSConnection.html#event:connect">connect</a></li><li><a href="WSConnection.html#event:error">error</a></li><li><a href="WSConnection.html#event:frame">frame</a></li><li><a href="WSServer.html#event:close">close</a></li><li><a href="WSServer.html#event:connection">connection</a></li><li><a href="WSServer.html#event:error">error</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 27 2017 16:20:21 GMT-0200 (Horário brasileiro de verão)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
